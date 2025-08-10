@@ -242,8 +242,26 @@ document.getElementById("loadInput").addEventListener("change", function() {
   this.value = ""; // Reset input so same file can be loaded again if needed
 });
 
-// --- Passive energy gain every second ---
+// --- Reset button with triple confirmation ---
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (confirm("WARNING: This will completely reset your game progress! Are you sure?")) {
+    if (confirm("This action is irreversible. Do you REALLY want to reset?")) {
+      if (confirm("Last chance! Confirm reset to wipe all your progress.")) {
+        localStorage.clear();
+        alert("Game reset. Reloading...");
+        location.reload();
+      } else {
+        alert("Reset canceled.");
+      }
+    } else {
+      alert("Reset canceled.");
+    }
+  } else {
+    alert("Reset canceled.");
+  }
+});
 
+// --- Passive energy gain every second ---
 setInterval(() => {
   let totalProduction = 0;
   for (const key in buildings) {
@@ -265,3 +283,35 @@ loadGame();
 updateDisplay();
 updateWaifuGarden();
 checkMergeAvailability();
+
+// --- Sakura Petals Falling Animation ---
+
+const petalContainer = document.getElementById("petalContainer");
+
+function createPetal() {
+  const petal = document.createElement("div");
+  petal.classList.add("petal");
+
+  // Random horizontal start position
+  petal.style.left = Math.random() * window.innerWidth + "px";
+
+  // Random size
+  const size = 15 + Math.random() * 15;
+  petal.style.width = size + "px";
+  petal.style.height = size + "px";
+
+  // Random animation duration & delay
+  const duration = 8000 + Math.random() * 7000;
+  petal.style.animationDuration = duration + "ms";
+  petal.style.animationDelay = (Math.random() * 5000) + "ms";
+
+  petalContainer.appendChild(petal);
+
+  // Remove petal after animation to keep DOM clean
+  setTimeout(() => {
+    petal.remove();
+  }, duration + 500);
+}
+
+// Create petals every 300ms
+setInterval(createPetal, 300);

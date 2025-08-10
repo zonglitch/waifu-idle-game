@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Waifu Idle Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cherry+Swash&family=Roboto&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -28,7 +29,7 @@
 
   <hr />
 
-  <div id="gifContainer" style="height: 250px; margin-bottom: 20px;"></div>
+  <div id="gifContainer" style="height: 280px; margin-bottom: 20px;"></div>
 
   <div>
     <h2>Waifu Garden</h2>
@@ -37,12 +38,16 @@
 
   <hr />
 
-  <!-- Save / Load Buttons -->
+  <!-- Save / Load / Reset Buttons -->
   <div style="margin-top: 20px;">
     <button id="saveBtn">Save Game</button>
     <input type="file" id="loadInput" style="display:none" />
     <button id="loadBtn">Load Game</button>
+    <button id="resetBtn" style="background-color: #ff4c6d; color: white; margin-left: 10px;">Reset Game</button>
   </div>
+
+  <!-- Sakura petals container -->
+  <div class="petal-container" id="petalContainer"></div>
 
   <script src="script.js"></script>
 </body>

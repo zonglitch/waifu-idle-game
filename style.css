@@ -1,67 +1,133 @@
+/* General styles and fonts */
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #ffeff7;
-  color: #333;
   margin: 0;
-  padding: 0 10px 30px;
+  padding: 20px;
+  background: #0a122a;
+  color: #eee;
+  font-family: 'Roboto', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
+/* Subtle Sakura blossom tiled background overlay using local image in images folder */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background: url('images/sakura.jpg') repeat;
+  background-size: 150px 150px;
+  opacity: 0.06;
+  z-index: 0;
+}
+
+/* Heading style with soft pink glow pulse */
+h1 {
+  font-family: 'Cherry Swash', cursive;
+  font-size: 3em;
+  color: #ff4c6d;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #ff4c6d;
+  animation: pulseGlow 3s infinite alternate;
+}
+
+/* Buttons with gentle pink glow pulse */
 button {
-  background-color: #ff4fa3;
-  color: white;
+  background-color: #ff4c6d;
   border: none;
+  border-radius: 8px;
   padding: 10px 20px;
-  cursor: pointer;
-  margin: 5px;
-  border-radius: 5px;
+  color: white;
+  font-weight: 700;
   font-size: 1rem;
-  transition: background-color 0.3s ease;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(255,76,109,0.4);
+  margin: 5px 0;
+  animation: pulseGlow 4s infinite alternate;
 }
 
 button:hover {
-  background-color: #e63f8a;
+  background-color: #e04261;
+  box-shadow: 0 6px 15px rgba(224,66,97,0.8);
 }
 
+/* Large gif for popups */
 .large-gif {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 80%;
-  max-height: 80%;
-  pointer-events: none; /* clicks go through */
-  z-index: 9999;
-}
-
-#waifuGarden {
-  margin: 20px auto;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.garden-item {
-  text-align: center;
-  color: #333;
-  background: #ffe6f2;
-  padding: 10px;
-  border-radius: 10px;
-  width: 150px;
-  box-shadow: 0 0 8px rgba(255, 77, 179, 0.5);
-  user-select: none;
-}
-
-.garden-item img {
-  width: 150px;
-  height: auto;
-  border-radius: 8px;
+  max-width: 320px;
+  max-height: 280px;
   display: block;
-  margin: 0 auto 8px auto;
+  margin: 0 auto 15px auto;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #ff4c6d;
+  z-index: 10;
+  position: relative;
 }
 
-.garden-item .counts {
-  font-weight: bold;
-  font-size: 0.9em;
+/* Garden items layout */
+#garden, #waifuGarden {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px 0;
+  z-index: 1;
+}
+
+/* Each garden item styling */
+.garden-item {
+  background: #14204a;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  width: 150px;
+  box-shadow: 0 0 10px #ff4c6d;
+  color: #ffcddc;
+  font-weight: 600;
+}
+
+/* Garden gif images */
+.garden-item img {
+  width: 120px;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  box-shadow: 0 0 12px #ff4c6d;
+}
+
+/* Text inside garden items */
+.counts {
+  font-size: 0.9rem;
+  margin: 3px 0;
+}
+
+/* Energy and info displays */
+div > span {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #ff9bbd;
+}
+
+/* Pulse glow animation */
+@keyframes pulseGlow {
+  0% {
+    text-shadow:
+      0 0 5px #ff4c6d,
+      0 0 10px #ff4c6d,
+      0 0 20px #ff4c6d;
+    box-shadow:
+      0 0 5px #ff4c6d,
+      0 0 10px #ff4c6d;
+  }
+  100% {
+    text-shadow:
+      0 0 10px #ff9bbd,
+      0 0 25px #ff9bbd,
+      0 0 50px #ff9bbd;
+    box-shadow:
+      0 0 15px #ff9bbd,
+      0 0 30px #ff9bbd;
+  }
 }
