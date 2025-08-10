@@ -1,6 +1,6 @@
 let wEnergy = 0;
 
-const baseZeroTwoCost = 10;  // store original base cost
+const baseZeroTwoCost = 10;  // original cost to reset to
 
 let buildings = {
   zeroTwo: {
@@ -16,7 +16,7 @@ let buildings = {
   zeroTwo_merged: {
     count: 0,
     cost: 0, // can't buy directly
-    baseProduction: 10, // 10x base output
+    baseProduction: 10,
     multiplier: 1,
     purchasedOnce: false,
     name: "Zero Two (Merged)",
@@ -24,10 +24,7 @@ let buildings = {
   }
 };
 
-// Merge upgrade cost in W-Energy
 const mergeCost = 100;
-
-// Track unlocked buildings for Waifu Garden
 let unlockedBuildings = new Set();
 
 function gatherWEnergy() {
@@ -40,14 +37,11 @@ function buyBuilding(name) {
   if (wEnergy >= b.cost) {
     wEnergy -= b.cost;
     b.count++;
-
-    // Increase cost exponentially with each purchase
     b.cost = Math.floor(b.cost * 1.5);
 
     if (!b.purchasedOnce) {
       showGif(`${name}.gif`);
       b.purchasedOnce = true;
-
       unlockedBuildings.add(name);
       updateWaifuGarden();
     }
@@ -73,7 +67,7 @@ function buyMergeZeroTwo() {
 
     showGif("zeroTwo_merge.gif");
 
-    // Reset the base Zero Two cost after merging
+    // Reset cost of base after merge
     base.cost = baseZeroTwoCost;
 
     updateDisplay();
@@ -128,7 +122,128 @@ function updateWaifuGarden() {
   });
 }
 
-// Passive production loop: add energy every second
+// --- Save and Load functions for localStorage ---
+
+function saveGame() {
+  const save = {
+    wEnergy: wEnergy,
+    buildings: {}
+  };
+
+  for (const key in buildings) {
+    save.buildings[key] = {
+      count: buildings[key].count,
+      cost: buildings[key].cost,
+      multiplier: buildings[key].multiplier,
+      purchasedOnce: buildings[key].purchasedOnce
+    };
+  }
+
+  localStorage.setItem("waifuIdleSave", JSON.stringify(save));
+}
+
+function loadGame() {
+  const saveStr = localStorage.getItem("waifuIdleSave");
+  if (!saveStr) return;
+
+  const save = JSON.parse(saveStr);
+  wEnergy = save.wEnergy || 0;
+
+  unlockedBuildings.clear();
+
+  for (const key in save.buildings) {
+    if (buildings[key]) {
+      buildings[key].count = save.buildings[key].count || 0;
+      buildings[key].cost = save.buildings[key].cost || buildings[key].cost;
+      buildings[key].multiplier = save.buildings[key].multiplier || 1;
+      buildings[key].purchasedOnce = save.buildings[key].purchasedOnce || false;
+
+      if (buildings[key].purchasedOnce) {
+        unlockedBuildings.add(key);
+      }
+    }
+  }
+}
+
+// --- Save game to a downloadable JSON file
+function saveGameToFile() {
+  const save = {
+    wEnergy: wEnergy,
+    buildings: {}
+  };
+
+  for (const key in buildings) {
+    save.buildings[key] = {
+      count: buildings[key].count,
+      cost: buildings[key].cost,
+      multiplier: buildings[key].multiplier,
+      purchasedOnce: buildings[key].purchasedOnce
+    };
+  }
+
+  const saveStr = JSON.stringify(save, null, 2);
+  const blob = new Blob([saveStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "waifu_idle_save.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// --- Load game from an uploaded JSON file
+function loadGameFromFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    try {
+      const save = JSON.parse(event.target.result);
+      wEnergy = save.wEnergy || 0;
+
+      unlockedBuildings.clear();
+
+      for (const key in save.buildings) {
+        if (buildings[key]) {
+          buildings[key].count = save.buildings[key].count || 0;
+          buildings[key].cost = save.buildings[key].cost || buildings[key].cost;
+          buildings[key].multiplier = save.buildings[key].multiplier || 1;
+          buildings[key].purchasedOnce = save.buildings[key].purchasedOnce || false;
+
+          if (buildings[key].purchasedOnce) {
+            unlockedBuildings.add(key);
+          }
+        }
+      }
+
+      updateDisplay();
+      updateWaifuGarden();
+      checkMergeAvailability();
+
+      alert("Game loaded successfully!");
+    } catch (e) {
+      alert("Failed to load save file: Invalid format.");
+    }
+  };
+
+  reader.readAsText(file);
+}
+
+// Hook buttons after page load
+document.getElementById("saveBtn").addEventListener("click", saveGameToFile);
+
+document.getElementById("loadBtn").addEventListener("click", () => {
+  document.getElementById("loadInput").click();
+});
+
+document.getElementById("loadInput").addEventListener("change", function() {
+  if (this.files.length > 0) {
+    loadGameFromFile(this.files[0]);
+  }
+  this.value = ""; // Reset input so same file can be loaded again if needed
+});
+
+// --- Passive energy gain every second ---
+
 setInterval(() => {
   let totalProduction = 0;
   for (const key in buildings) {
@@ -136,12 +251,17 @@ setInterval(() => {
     totalProduction += b.baseProduction * b.count * b.multiplier;
   }
   wEnergy += totalProduction;
+
   updateDisplay();
   updateWaifuGarden();
   checkMergeAvailability();
 }, 1000);
 
-// Initial update
+// Save game every 5 seconds to localStorage
+setInterval(saveGame, 5000);
+
+// Load saved game on start
+loadGame();
 updateDisplay();
 updateWaifuGarden();
 checkMergeAvailability();

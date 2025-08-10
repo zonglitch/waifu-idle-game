@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,37 +7,42 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <h1>💖 Waifu Idle Game 💖</h1>
+  <h1>Waifu Idle Game</h1>
 
   <div>
-    <p>W-Energy: <span id="wEnergy">0</span></p>
     <button onclick="gatherWEnergy()">Gather W-Energy</button>
+    <span>W-Energy: <span id="wEnergy">0</span></span>
   </div>
 
   <hr />
 
-  <div class="building">
-    <h2>Zero Two</h2>
-    <p>Owned: <span id="zeroTwoCount">0</span></p>
-    <p>Cost: <span id="zeroTwoCost">10</span></p>
-    <button onclick="buyBuilding('zeroTwo')">Buy Zero Two</button>
+  <div>
+    <h2>Buy Buildings</h2>
+    <button onclick="buyBuilding('zeroTwo')">Buy Zero Two (Cost: <span id="zeroTwoCost">10</span>)</button>
+    Owned: <span id="zeroTwoCount">0</span>
   </div>
 
-  <!-- Merge upgrade button for merged Zero Two -->
-  <div class="building" id="mergeZeroTwoDiv" style="display:none; margin-top: 20px;">
-    <h2>Merge Zero Two</h2>
-    <p>Requires 5 Zero Twos + <span id="mergeCost">100</span> W-Energy</p>
-    <button id="buyMergeBtn" onclick="buyMergeZeroTwo()">Merge Zero Two</button>
+  <div id="mergeZeroTwoDiv" style="display:none; margin-top:10px;">
+    <button onclick="buyMergeZeroTwo()">Merge 5 Zero Twos into Merged Zero Two (Cost: <span id="mergeCost">100</span>)</button>
   </div>
-
-  <!-- GIF display container -->
-  <div id="gifContainer"></div>
 
   <hr />
 
-  <h2>🌸 Waifu Garden 🌸</h2>
-  <div id="waifuGarden"></div>
+  <div id="gifContainer" style="height: 250px; margin-bottom: 20px;"></div>
+
+  <div>
+    <h2>Waifu Garden</h2>
+    <div id="waifuGarden" style="display:flex; gap: 15px; flex-wrap: wrap;"></div>
+  </div>
+
+  <hr />
+
+  <!-- Save / Load Buttons -->
+  <div style="margin-top: 20px;">
+    <button id="saveBtn">Save Game</button>
+    <input type="file" id="loadInput" style="display:none" />
+    <button id="loadBtn">Load Game</button>
+  </div>
 
   <script src="script.js"></script>
 </body>
