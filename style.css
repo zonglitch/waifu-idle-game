@@ -1,0 +1,67 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #ffeff7;
+  color: #333;
+  margin: 0;
+  padding: 0 10px 30px;
+}
+
+button {
+  background-color: #ff4fa3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e63f8a;
+}
+
+.large-gif {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 80%;
+  max-height: 80%;
+  pointer-events: none; /* clicks go through */
+  z-index: 9999;
+}
+
+#waifuGarden {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.garden-item {
+  text-align: center;
+  color: #333;
+  background: #ffe6f2;
+  padding: 10px;
+  border-radius: 10px;
+  width: 150px;
+  box-shadow: 0 0 8px rgba(255, 77, 179, 0.5);
+  user-select: none;
+}
+
+.garden-item img {
+  width: 150px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto 8px auto;
+}
+
+.garden-item .counts {
+  font-weight: bold;
+  font-size: 0.9em;
+}

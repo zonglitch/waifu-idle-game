@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Waifu Idle Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>💖 Waifu Idle Game 💖</h1>
+
+  <div>
+    <p>W-Energy: <span id="wEnergy">0</span></p>
+    <button onclick="gatherWEnergy()">Gather W-Energy</button>
+  </div>
+
+  <hr />
+
+  <div class="building">
+    <h2>Zero Two</h2>
+    <p>Owned: <span id="zeroTwoCount">0</span></p>
+    <p>Cost: <span id="zeroTwoCost">10</span></p>
+    <button onclick="buyBuilding('zeroTwo')">Buy Zero Two</button>
+  </div>
+
+  <!-- Merge upgrade button for merged Zero Two -->
+  <div class="building" id="mergeZeroTwoDiv" style="display:none; margin-top: 20px;">
+    <h2>Merge Zero Two</h2>
+    <p>Requires 5 Zero Twos + <span id="mergeCost">100</span> W-Energy</p>
+    <button id="buyMergeBtn" onclick="buyMergeZeroTwo()">Merge Zero Two</button>
+  </div>
+
+  <!-- GIF display container -->
+  <div id="gifContainer"></div>
+
+  <hr />
+
+  <h2>🌸 Waifu Garden 🌸</h2>
+  <div id="waifuGarden"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
